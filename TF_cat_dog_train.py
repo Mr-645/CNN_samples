@@ -102,3 +102,20 @@ the_model = do_training()
 pickle_out = open("the_model_i_saved.pickle", "wb")
 pickle.dump(the_model, pickle_out)
 pickle_out.close()
+
+# Import the saved model
+pickle_in = open("the_model_i_saved.pickle", "rb")
+the_model = pickle.load(pickle_in)
+
+# RUN -> Use trained model to classify in an input image
+the_result = predict_from_an_image(
+    the_model=the_model,
+    location="")  # insert location of sample image here
+
+if the_result[0][0] == 1:
+    the_prediction = "dog"
+else:
+    the_prediction = "cat"
+
+print(the_result)
+print(the_prediction)  # The Python output console will show the result
