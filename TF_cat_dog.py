@@ -1,6 +1,4 @@
-#Tensorflow, train a binary classifier
-
-rom keras.preprocessing.image import ImageDataGenerator
+from keras.preprocessing.image import ImageDataGenerator
 from keras.models import Sequential
 from keras.layers import Convolution2D, MaxPooling2D, Activation, Dropout, Flatten, Dense
 from keras import backend
@@ -8,15 +6,14 @@ import numpy as np
 from keras.preprocessing import image
 from keras.callbacks import TensorBoard
 import time
-import pickle
 
 # tensorboard CLI entry: tensorboard --logdir=logs/ --host 192.168.1.73 --port 6006
 
 # Setup
 img_width, img_height = 150, 150  # the dimensions need to be declared first
 
-training_data_folder = ""  # folder containing folders of photos of cats and dogs
-validation_data_folder = ""  # folder containing folders of DIFFERENT photos of cats and dogs
+training_data_folder = ""
+validation_data_folder = ""
 
 NAME = "5-Fruit-CNN-{}".format(int(time.time()))  # Tensorboard log file name
 tensorboard = TensorBoard(log_dir="logs/{}".format(NAME))
@@ -93,29 +90,16 @@ def predict_from_an_image(the_model, location):
     image_to_predict = np.expand_dims(image_to_predict, axis=0)
     # Do data prediction
     the_result = the_model.predict(image_to_predict)
-    return the_result
 
-# Perform training
-the_model = do_training()
+    if the_result[0][0] == 1:
+        the_prediction = "dog"
+    else:
+        the_prediction = "cat"
 
-# Save model
-pickle_out = open("the_model_i_saved.pickle", "wb")
-pickle.dump(the_model, pickle_out)
-pickle_out.close()
+    print(the_result)
+    print(the_prediction)
 
-# Import the saved model
-pickle_in = open("the_model_i_saved.pickle", "rb")
-the_model = pickle.load(pickle_in)
 
-# RUN -> Use trained model to classify in an input image
-the_result = predict_from_an_image(
-    the_model=the_model,
-    location="")  # insert location of sample image here
-
-if the_result[0][0] == 1:
-    the_prediction = "dog"
-else:
-    the_prediction = "cat"
-
-print(the_result)
-print(the_prediction)  # The Python output console will show the result
+if __name__ == "__main__":
+    do_training()
+    predict_from_an_image()  # pass the model name "the_model" and the path to the test image
