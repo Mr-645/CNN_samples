@@ -1,7 +1,7 @@
 import cv2  # import OpenCV
 import numpy as np  # import Numpy
 
-video = cv2.VideoCapture(0)  # Select the image capture device
+video = cv2.VideoCapture(0)  # Select the image capture device  {0, 1, 2, etc}
 
 net = cv2.dnn.readNet("yolov3.weights", "yolov3.cfg")  # Load pre trained model (weights and configuration)
 
