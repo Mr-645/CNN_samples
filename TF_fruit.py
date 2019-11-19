@@ -5,11 +5,8 @@ from keras import backend, optimizers, losses, metrics
 import numpy as np
 from keras.preprocessing import image
 from keras.callbacks import TensorBoard
-import keras
 import datetime
 import tensorflow as tf
-
-# tensorboard CLI entry: tensorboard --logdir=logs/ --host 192.168.1.73 --port 6006
 
 # tensorboard CLI entry: tensorboard --logdir=logs/ --host 192.168.1.73 --port 6006
 
@@ -81,7 +78,6 @@ def do_training():
     the_model.summary()
 
     the_model.compile(loss=losses.categorical_crossentropy, optimizer=optimizers.adam(), metrics=["accuracy"])
-    # the_model.compile(loss=losses.categorical_crossentropy, optimizer=optimizers.rmsprop(), metrics=["accuracy"])
 
     # the training itself
     the_model.fit_generator(  # connects nodes
