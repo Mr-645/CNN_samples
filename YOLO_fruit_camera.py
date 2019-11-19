@@ -1,7 +1,7 @@
 import cv2  # import OpenCV
 import numpy as np  # import Numpy
 
-video = cv2.VideoCapture(0)  # Select the image capture device  {0, 1, 2, etc}
+video = cv2.VideoCapture(1)  # Select the image capture device {0, 1, 2, etc}
 
 net = cv2.dnn.readNet("yolov3.weights", "yolov3.cfg")  # Load pre trained model (weights and configuration)
 
@@ -45,23 +45,23 @@ while True:
                 boxes.append([x, y, w, h])
                 confidences.append(float(confidence))
                 class_ids.append(class_id)
-                # cv2.circle(img, (centre_x, centre_y), 3, (0, 0, 255), 2)  # draw circle at centre
 
     indexes = cv2.dnn.NMSBoxes(boxes, confidences, 0.5, 0.4)
     font = cv2.FONT_HERSHEY_PLAIN
     for i in range(len(boxes)):
         if i in indexes:
             x, y, w, h = boxes[i]
-            object_label = str(classes[class_ids[i]]) + " " + str(round((confidences[0]) * 100, 2)) + "%"
+            object_label = str(classes[class_ids[i]])
+            classification_accuracy = str(round((confidences[0]) * 100, 2)) + "%"
 
             if (classes[class_ids[i]]) in ["banana", "apple", "orange"]:
-            # if 1:
-                # print(classes[class_ids[i]])
                 # Draw rectangles around object with a object_label
-                cv2.rectangle(img, (x, y), (x + w, y + h), (0, 0, 0), 3)
-                cv2.putText(img, object_label, (x, y - 30), font, 3, (0, 0, 0), 5)
+                cv2.rectangle(img, (x, y), (x + w, y + h), (0, 0, 0), 5)
+                cv2.putText(img, object_label, (x, y - 40), font, 2, (0, 0, 0), 5)
+                cv2.putText(img, classification_accuracy, (x, y - 10), font, 2, (0, 0, 0), 5)
                 cv2.rectangle(img, (x, y), (x + w, y + h), (255, 255, 255), 2)
-                cv2.putText(img, object_label, (x, y - 30), font, 3, (255, 255, 255), 2)
+                cv2.putText(img, object_label, (x, y - 40), font, 2, (255, 255, 255), 2)
+                cv2.putText(img, classification_accuracy, (x, y - 10), font, 2, (255, 255, 255), 2)
                 cv2.circle(img, (centre_x, centre_y), 3, (0, 0, 255), 2)  # draw circle at centre
 
     img2 = cv2.resize(img, dsize=(1920, 1025))
@@ -71,4 +71,4 @@ while True:
         break
 
 video.release()
-cv2.destroyAllWindows() 
+cv2.destroyAllWindows()
