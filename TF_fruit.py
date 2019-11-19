@@ -55,9 +55,6 @@ def do_training():
         batch_size=the_batch_size,
         class_mode="categorical",  # try sparse
     )
-        # save_to_dir="preview",
-        # save_prefix="fruit",
-        # save_format="jpeg")
 
     validation_data_generator = train_datagen.flow_from_directory(
         validation_data_folder,
@@ -70,6 +67,12 @@ def do_training():
         Dense(128, input_shape=input_shape, activation='relu'),
         AveragePooling2D(pool_size=(2, 2)),
         Conv2D(64, kernel_size=(5, 5), activation='relu'),
+        AveragePooling2D(pool_size=(2, 2)),
+        Conv2D(32, kernel_size=(5, 5), activation='relu'),
+        AveragePooling2D(pool_size=(2, 2)),
+        Conv2D(16, kernel_size=(5, 5), activation='relu'),
+        AveragePooling2D(pool_size=(2, 2)),
+        Conv2D(8, kernel_size=(5, 5), activation='relu'),
         AveragePooling2D(pool_size=(2, 2)),
         Flatten(),
         Dense(3, activation='softmax')
