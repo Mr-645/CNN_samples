@@ -18,7 +18,6 @@ validation_data_folder = ""
 
 now = datetime.datetime.now()
 time_now = f"{now.hour}.{now.minute}.{now.second}-{now.day}.{now.month}.{now.year}"
-# NAME = "Cats-vs-dogs-CNN-{}".format(int(time.time()))
 NAME = f"3-Fruit-CNN-{time_now}"
 tensorboard = TensorBoard(log_dir=f"logs/{NAME}")
 
@@ -30,7 +29,7 @@ the_batch_size = 5
 
 def do_training():
     sess = tf.Session(config=tf.ConfigProto(
-        intra_op_parallelism_threads=8))
+        intra_op_parallelism_threads=8))  # Set to number of CPU cores
 
     # Generate the data
     if backend.image_data_format() == 'channels_first':
@@ -60,7 +59,7 @@ def do_training():
         validation_data_folder,
         target_size=(img_width, img_height),
         batch_size=the_batch_size,
-        class_mode="categorical")  # was categorical
+        class_mode="categorical")
 
     # make the model itself
     the_model = Sequential([
